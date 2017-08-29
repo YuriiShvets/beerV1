@@ -2,6 +2,7 @@ package com.example.web;
 
 import com.example.model.BeerExpert;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +18,19 @@ import java.util.List;
 @WebServlet(name = "BeerSelect")
 public class BeerSelect extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("Beer Selection Advice<br>");
+        //response.setContentType("text/html");
+        //PrintWriter out = response.getWriter();
+        //out.println("Beer Selection Advice<br>");
         String c = request.getParameter("color");
         BeerExpert expert = new BeerExpert();
         List beerList = expert.getBrands(c);
-        for(int i = 0; i < beerList.size(); i++)
-            out.println("<br>" + beerList.get(i));
+        //for(int i = 0; i < beerList.size(); i++)
+        //    out.println("<br>" + beerList.get(i));
+        request.setAttribute("styles", beerList);
+
+        RequestDispatcher view = request.getRequestDispatcher("result.jsp");
+
+        view.forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
